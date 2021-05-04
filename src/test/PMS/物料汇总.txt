@@ -1,0 +1,30 @@
+--汇总最终状态的物料编码的设计信息及采购数量。
+select tt.proCode as"物资编码",
+       tt.proName as"物资名称",
+       tt.subSpec as "物资大类",
+       tt.amount  as "设计数量"
+  from (select sv.category_code proCode,
+               sv.category_name proName,
+               sv.sub_spec      subSpec,
+               sv.amount        amount
+          from t_serv_list sv,
+               (select l1.purchase_code
+                  from t_prj_list l1, t_ini_info t
+                 where l1.prj_id = t.prj_id
+                   and l1.is_push = '1'
+                   and t.prj_code = '项目编码') tt
+         where sv.purchase_code = tt.purchase_code
+           and sv.is_sum = '1'
+        union all
+        select eq.category_code proCode,
+               eq.category_name proName,
+               eq.sub_spec      subSpec,
+               eq.amount        amount
+          from t_equip_list eq,
+               (select l1.purchase_code
+                  from t_prj_list l1, t_ini_info t
+                 where l1.prj_id = t.prj_id
+                   and l1.is_push = '1'
+                   and t.prj_code = '项目编码') tt
+         where eq.purchase_code = tt.purchase_code
+           and eq.is_sum = '1') tt;

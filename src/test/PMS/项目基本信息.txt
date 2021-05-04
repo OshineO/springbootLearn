@@ -1,0 +1,18 @@
+--项目基本信息状态sql
+select 'PMS系统' 业务系统，
+t1.prj_id 项目流水号,
+t2.project_name 项目名称,
+t2.site_id 站址编码,
+t2.prj_code 项目编码,
+t1.mdmprojectstates_state 项目状态编号,
+t1.mdmprojectstates_statename 项目状态名称,
+t2.prj_year 项目年份
+from T_PROJECTSTATEINFO t1
+inner join t_ini_info t2 on t1.prj_id=t2.prj_id
+where 
+(t1.prj_id,decode (t1.mdmprojectstates_state,'H0','20','B3','01','C3','01','D4','02','E2','03','E0','04','F5','05','F1','06','F2','07','G0','08','00'))in
+(select t.prj_id,
+max(decode (t.mdmprojectstates_state,'H0','20','B3','01','C3','01','D4','02','E2','03','E0','04','F5','05','F1','06','F2','07','G0','08','00'))statecode
+from T_PROJECTSTATEINFO t
+where t.mdmprojectstates_state not in('EP1','EP2','G3','Z3','J0')
+group by t.prj_id);

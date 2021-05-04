@@ -1,0 +1,22 @@
+--每个设计清单号对应的设计清单详情sql。
+select t1.proCode as "物资编码" , t1.amount as "设计数量"
+  from (select sv.category_code proCode, sv.amount amount
+          from t_serv_list sv
+         where sv.is_sum = '1'
+           and sv.purchase_code = '设计清单号'
+        union all
+        select eq.category_code proCode, eq.amount amount
+          from t_equip_list eq
+         where eq.is_sum = '1'
+           and eq.purchase_code = '设计清单号') t1
+union
+select t2.proCode as "物资编码" , t2.amount   as "设计数量"
+  from (select sv1.category_code proCode, sv1.amount amount
+          from t_serv_list_adj sv1
+         where sv1.is_sum = '1'
+           and sv1.purchase_code = '设计清单号'
+        union all
+        select eq1.category_code proCode, eq1.amount amount
+          from t_equip_list_adj eq1
+         where eq1.is_sum = '1'
+           and eq1.purchase_code = '设计清单号') t2;

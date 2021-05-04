@@ -1,0 +1,85 @@
+--根据项目编码及物料编码为条件查出该物料编码历史所有设计清单对应的信息。
+select t1.proCode      as "物资编码",
+       t1.proName      as "物资名称",
+       t1.amount       as"设计数量",
+       t1.purchaseCode as"设计清单号"
+  from (select sv.category_code proCode,
+               sv.category_name proName,
+               sv.amount        amount,
+               sv.purchase_code purchaseCode
+          from t_serv_list sv
+         where sv.purchase_code in
+               (SELECT tt.purchaseCode
+                  FROM (SELECT l1.purchase_code purchaseCode, l1.prj_id prjId
+                          FROM t_prj_list l1
+                         where l1.is_push = '1'
+                        union
+                        SELECT l2.purchase_code purchaseCode, l2.prj_id prjId
+                          FROM t_prj_list_adj l2
+                         where l2.is_push = '1') tt,
+                       t_ini_info i
+                 where tt.prjId = i.prj_id
+                   and i.prj_code = '项目编码')
+           and sv.category_code = '物料编码'
+        union all
+        select eq.category_code proCode,
+               eq.category_name proName,
+               eq.amount        amount,
+               eq.purchase_code purchaseCode
+          from t_equip_list eq
+         where eq.purchase_code in
+               (SELECT tt.purchaseCode
+                  FROM (SELECT l1.purchase_code purchaseCode, l1.prj_id prjId
+                          FROM t_prj_list l1
+                         where l1.is_push = '1'
+                        union
+                        SELECT l2.purchase_code purchaseCode, l2.prj_id prjId
+                          FROM t_prj_list_adj l2
+                         where l2.is_push = '1') tt,
+                       t_ini_info i
+                 where tt.prjId = i.prj_id
+                   and i.prj_code = '项目编码')
+           and eq.category_code = '物料编码') t1
+union
+select t2.proCode      as "物资编码",
+       t2.proName      as "物资名称",
+       t2.amount       as"设计数量",
+       t2.purchaseCode as"设计清单号"
+  from (select sv1.category_code proCode,
+               sv1.category_name proName,
+               sv1.amount        amount,
+               sv1.purchase_code purchaseCode
+          from t_serv_list_adj sv1
+         where sv1.purchase_code in
+               (SELECT tt.purchaseCode
+                  FROM (SELECT l1.purchase_code purchaseCode, l1.prj_id prjId
+                          FROM t_prj_list l1
+                         where l1.is_push = '1'
+                        union
+                        SELECT l2.purchase_code purchaseCode, l2.prj_id prjId
+                          FROM t_prj_list_adj l2
+                         where l2.is_push = '1') tt,
+                       t_ini_info i
+                 where tt.prjId = i.prj_id
+                   and i.prj_code = '项目编码')
+           and sv1.category_code = '物料编码'
+        union all
+        select eq1.category_code proCode,
+               eq1.category_name proName,
+               eq1.amount        amount,
+               eq1.purchase_code purchaseCode
+          from t_equip_list_adj eq1
+         where eq1.purchase_code in
+               (SELECT tt.purchaseCode
+                  FROM (SELECT l1.purchase_code purchaseCode, l1.prj_id prjId
+                          FROM t_prj_list l1
+                         where l1.is_push = '1'
+                        union
+                        SELECT l2.purchase_code purchaseCode, l2.prj_id prjId
+                          FROM t_prj_list_adj l2
+                         where l2.is_push = '1') tt,
+                       t_ini_info i
+                 where tt.prjId = i.prj_id
+                   and i.prj_code = '项目编码')
+           and eq1.category_code = '物料编码') t2;
+		   

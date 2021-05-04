@@ -1,0 +1,25 @@
+--以项目编码查询条件，列出该项目所有设计清单及设计变更清单号sql。
+SELECT tt.purchaseCode as "设计清单号",
+       '有效' as "设计清单状态",
+       i.site_id as "站址编码",
+       mm.mdmprojectstates_statename  as"项目状态"
+  FROM (SELECT l1.purchase_code purchaseCode, l1.prj_id prjId
+          FROM t_prj_list l1
+         where l1.is_push = '1'
+        union
+        SELECT l2.purchase_code purchaseCode, l2.prj_id prjId
+          FROM t_prj_list_adj l2
+         where l2.is_push = '1') tt,
+       (select m.prj_id,
+               m.mdmprojectstates_state,
+               m.mdmprojectstates_statename
+          from (select t.prj_id,
+                       t.mdmprojectstates_state,
+                       t.mdmprojectstates_statename,
+                       row_number() over(partition by t.prj_id order by decode(t.mdmprojectstates_state, 'H0', '01', 'B3', '02', 'C3', '03', 'D4', '04', 'E2', '05', 'E0', '06', 'F5', '07', 'F1', '08', 'F2', '09', 'G0', '10', '00') desc) RNUM
+                  from t_projectstateinfo t  where t.mdmprojectstates_code='项目编码') m
+         where m.rnum = 1   ) mm,
+       t_ini_info i
+ where tt.prjId = i.prj_id
+  and i.prj_id = mm.prj_id
+   and i.prj_code = '项目编码';
