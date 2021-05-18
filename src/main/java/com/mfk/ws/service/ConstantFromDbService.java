@@ -25,11 +25,11 @@ public class ConstantFromDbService {
     @PostConstruct
     public void init(){
 
-        AlipayConfigBean config = alipayConfigMapper.selectOne(Wrappers.emptyWrapper());
+        /*AlipayConfigBean config = alipayConfigMapper.selectOne(Wrappers.emptyWrapper());
         System.out.println("config:"+config);
         System.out.println("APP_ID:"+AlipayConfig.APP_ID);
         AlipayConfig.APP_ID=config.getAppid();
-        System.out.println("APP_ID:"+AlipayConfig.APP_ID);
+        System.out.println("APP_ID:"+AlipayConfig.APP_ID);*/
     }
 
 

@@ -5,13 +5,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.0.RELEASE</version>
+	<!--	<version>2.1.0.RELEASE</version>-->
+		<version>2.1.8.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.mfk</groupId>
-	<artifactId>ws</artifactId>
+	<artifactId>springbootLearn</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ws</name>
+	<name>springbootLearn</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -172,6 +173,10 @@
 		<groupId>com.alipay.sdk</groupId>
 		<artifactId>alipay-sdk-java</artifactId>
 		<version>4.9.71.ALL</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
 		</dependency>
 
 	</dependencies>
