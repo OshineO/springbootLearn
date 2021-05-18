@@ -4,7 +4,7 @@ spring:
         druid:
 #            driver-class-name: com.mysql.jdbc.Driver
             driver-class-name: com.mysql.cj.jdbc.Driver
-            url: jdbc:mysql://localhost:3306/renren_fast?serverTimezone=UTC
+            url: jdbc:mysql://localhost:3306/springbootlearn?serverTimezone=UTC
             username: root
             password: 123456
             initialsize: 10
@@ -38,9 +38,29 @@ spring:
       host: 47.94.94.78
       port: 6379
       password: redis
+#rabbitmq配置
+    rabbitmq:
+      host: 192.168.227.128
+      port: 5672
+      virtual-host: /
+      publisher-confirms: true
+      publisher-returns: true
+      #只要抵达队列以异步方式优先调用 returns
+      template:
+        mandatory: true
+#手动ack消息
+      listener:
+        simple:
+          acknowledge-mode: manual
+
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#解决定制rabbitTemplate注入问题
+management:
+  health:
+    rabbit:
+      enabled: false
 
 ##多数据源的配置
 #dynamic:
