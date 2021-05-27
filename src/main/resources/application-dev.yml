@@ -52,6 +52,7 @@ spring:
       listener:
         simple:
           acknowledge-mode: manual
+      connection-timeout: 2
 
 mybatis-plus:
   configuration:

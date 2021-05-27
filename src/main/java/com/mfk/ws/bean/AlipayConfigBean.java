@@ -29,7 +29,7 @@ PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='支付宝支付配置'
 
  */
-@TableName("alipayconf")
+//@TableName("alipayconf")
 public class AlipayConfigBean implements Serializable {
     private static final long serialVersionUID = 683168705647037128L;
     
